@@ -10,6 +10,7 @@ import UIKit
 
 class WeatherViewController: UIViewController {
 
+    @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -18,7 +19,10 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        print(searchTextField.text)
+    }
+    
 
 }
 
