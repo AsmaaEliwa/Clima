@@ -9,10 +9,20 @@
 import Foundation
 struct WetherModel:Codable{
     let main:MainModel
+    let name:String
+    let weather:[Weather]
+    let coord:Coordinates
 }
 struct MainModel:Codable{
     let temp:Float
     let temp_min:Float
     let temp_max:Float
     let humidity:Int
+}
+struct Weather:Codable{
+    let id:Int
+}
+struct Coordinates:Codable{
+    let lon: Double
+    let lat: Double
 }

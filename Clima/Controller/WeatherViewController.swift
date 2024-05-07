@@ -7,9 +7,9 @@
 //
 
 import UIKit
-
+import CoreLocation
 class WeatherViewController: UIViewController,UITextFieldDelegate {
-
+    var locatinManager = CLLocationManager()
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -22,16 +22,19 @@ class WeatherViewController: UIViewController,UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     @IBAction func searchButtonPressed(_ sender: UIButton) {
-        print(searchTextField.text)
+//        print(searchTextField.text)
         searchTextField.endEditing(true)
         
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(searchTextField.text)
+//        print(searchTextField.text)
         wetherManager.getTemp(city: searchTextField.text ?? "") { temp in
-            print(temp?.main.humidity)
+//            print(temp?.main.humidity)
             DispatchQueue.main.async{
                 self.temperatureLabel.text = String(temp?.main.humidity ?? 0)
+                self.cityLabel.text = String(temp?.name ?? "")
+               let image = self.getImageName(conditionID: temp?.weather[0].id ?? 220)
+                self.conditionImageView.image = UIImage(systemName: image )
             }
         }
         searchTextField.endEditing(true)
@@ -48,6 +51,27 @@ class WeatherViewController: UIViewController,UITextFieldDelegate {
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         searchTextField.text = ""
+    }
+    func getImageName(conditionID:Int)->String{
+        switch conditionID {
+                case 200...232:
+                    return "cloud.bolt"
+                case 300...321:
+                    return "cloud.drizzle"
+                case 500...531:
+                    return "cloud.rain"
+                case 600...622:
+                    return "cloud.snow"
+                case 701...781:
+                    return "cloud.fog"
+                case 800:
+                    return "sun.max"
+                case 801...804:
+                    return "cloud.bolt"
+                default:
+                    return "cloud"
+                }
+
     }
 }
 
