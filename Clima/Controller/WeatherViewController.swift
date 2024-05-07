@@ -14,10 +14,11 @@ class WeatherViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    
+    var wetherManager = WetherManager()
     override func viewDidLoad() {
         super.viewDidLoad()
         searchTextField.delegate = self
+     
         // Do any additional setup after loading the view.
     }
     @IBAction func searchButtonPressed(_ sender: UIButton) {
@@ -27,6 +28,12 @@ class WeatherViewController: UIViewController,UITextFieldDelegate {
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print(searchTextField.text)
+        wetherManager.getTemp(city: searchTextField.text ?? "") { temp in
+            print(temp?.main.humidity)
+            DispatchQueue.main.async{
+                self.temperatureLabel.text = String(temp?.main.humidity ?? 0)
+            }
+        }
         searchTextField.endEditing(true)
         
         return true
